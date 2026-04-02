@@ -62,7 +62,7 @@
         input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); cursor: pointer; }
         textarea { min-height: 80px; resize: vertical; }
         .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
 
         /* Radio Pills */
         .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -193,7 +193,7 @@
         .modal-result { text-align: center; padding: 14px; background: var(--blue-dim); border-radius: 8px; margin-bottom: 16px; }
         .modal-result-num { font-size: 2rem; color: var(--blue); font-family: var(--sans); }
         .modal-result-label { font-size: 0.75rem; color: var(--text-dim); margin-top: 2px; }
-        .modal-apply { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .modal-apply { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
         .modal-apply-btn { background: var(--blue-dim); border: 1px solid var(--border-accent); color: var(--blue); padding: 9px; border-radius: 7px; cursor: pointer; font-size: 0.8rem; font-family: var(--mono); text-align: center; }
         .modal-apply-btn:hover { background: rgba(74,158,255,0.2); }
         .modal-close { margin-top: 10px; width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); padding: 10px; border-radius: 7px; cursor: pointer; font-family: var(--mono); font-size: 0.85rem; }
@@ -458,7 +458,7 @@
 <div class="page-wrapper">
 
     <div class="header">
-        <img src="Hannah+Clear.png" alt="Audio WMC">
+        <img src="Hannah_Clear.png" alt="Audio WMC">
         <h1>AUDIO WMC</h1>
         <p class="subtitle">Discovery Session Tool</p>
     </div>
@@ -501,8 +501,9 @@
         <div class="card">
             <div class="card-title">Music Scope <button class="time-calc-btn" onclick="openCalc()">⏱ Time Calculator</button></div>
             <div class="field-row-3">
-                <div class="field"><label>Mix w/ Live Recordings (min)</label><input type="number" id="minutesWithLive" min="0" value="0"></div>
-                <div class="field"><label>Mix w/o Live Recordings (min)</label><input type="number" id="minutesWithoutLive" min="0" value="0"></div>
+                <div class="field"><label>MIDI Only (min)</label><input type="number" id="minutesWithoutLive" min="0" value="0"></div>
+                <div class="field"><label>MIDI + Solos (min)</label><input type="number" id="minutesWithLive" min="0" value="0"></div>
+                <div class="field"><label>MIDI + Full Orch (min)</label><input type="number" id="minutesFullOrch" min="0" value="0"></div>
                 <div class="field"><label>Mastering (min)</label><input type="number" id="minutesMastering" min="0" value="0"></div>
             </div>
             <div class="field-row">
@@ -619,8 +620,9 @@
                 </div>
             </div>
             <div class="quote-lines">
-                <div class="quote-line" id="ql-live" style="display:none"><span id="ql-live-lbl">Mix w/ Live</span><span class="amount" id="ql-live-amt">$0</span></div>
-                <div class="quote-line" id="ql-nolive" style="display:none"><span id="ql-nolive-lbl">Mix w/o Live</span><span class="amount" id="ql-nolive-amt">$0</span></div>
+                <div class="quote-line" id="ql-midi" style="display:none"><span id="ql-midi-lbl">MIDI Only</span><span class="amount" id="ql-midi-amt">$0</span></div>
+                <div class="quote-line" id="ql-solos" style="display:none"><span id="ql-solos-lbl">MIDI + Solos</span><span class="amount" id="ql-solos-amt">$0</span></div>
+                <div class="quote-line" id="ql-orch" style="display:none"><span id="ql-orch-lbl">MIDI + Full Orch</span><span class="amount" id="ql-orch-amt">$0</span></div>
                 <div class="quote-line" id="ql-master" style="display:none"><span id="ql-master-lbl">Mastering</span><span class="amount" id="ql-master-amt">$0</span></div>
                 <div class="quote-line adj-line" id="ql-adj" style="display:none"><span id="ql-adj-lbl">Adjustment</span><span class="amount" id="ql-adj-amt">$0</span></div>
                 <div class="quote-line" id="ql-rev" style="display:none"><span id="ql-rev-lbl">Extra Revisions</span><span class="amount" id="ql-rev-amt">$0</span></div>
@@ -633,9 +635,10 @@
                 <div class="info-box internal-only"><div class="info-box-label">% of Annual Goal</div><div class="info-box-val green" id="capGoal">—</div><div class="info-box-sub">of 545 min target</div></div>
             </div>
             <div class="bar-chart" id="barChart" style="display:none;margin-top:16px;">
-                <div class="bar-row" id="bar-live" style="display:none"><div class="bar-label">Live Mix</div><div class="bar-track"><div class="bar-fill blue" id="bf-live" style="width:0%"></div></div><div class="bar-val" id="bv-live">0</div></div>
-                <div class="bar-row" id="bar-nolive" style="display:none"><div class="bar-label">No-Live Mix</div><div class="bar-track"><div class="bar-fill green" id="bf-nolive" style="width:0%"></div></div><div class="bar-val" id="bv-nolive">0</div></div>
-                <div class="bar-row" id="bar-master" style="display:none"><div class="bar-label">Mastering</div><div class="bar-track"><div class="bar-fill amber" id="bf-master" style="width:0%"></div></div><div class="bar-val" id="bv-master">0</div></div>
+                <div class="bar-row" id="bar-midi" style="display:none"><div class="bar-label">MIDI Only</div><div class="bar-track"><div class="bar-fill green" id="bf-midi" style="width:0%"></div></div><div class="bar-val" id="bv-midi">0</div></div>
+                <div class="bar-row" id="bar-solos" style="display:none"><div class="bar-label">MIDI + Solos</div><div class="bar-track"><div class="bar-fill blue" id="bf-solos" style="width:0%"></div></div><div class="bar-val" id="bv-solos">0</div></div>
+                <div class="bar-row" id="bar-orch" style="display:none"><div class="bar-label">MIDI + Full Orch</div><div class="bar-track"><div class="bar-fill amber" id="bf-orch" style="width:0%"></div></div><div class="bar-val" id="bv-orch">0</div></div>
+                <div class="bar-row" id="bar-master" style="display:none"><div class="bar-label">Mastering</div><div class="bar-track"><div class="bar-fill" id="bf-master" style="width:0%;background:var(--text-faint)"></div></div><div class="bar-val" id="bv-master">0</div></div>
             </div>
         </div>
 
@@ -719,8 +722,9 @@
         <div class="modal-result-label">TOTAL MINUTES</div>
     </div>
     <div class="modal-apply">
-        <div class="modal-apply-btn" onclick="applyCalc('live')">→ Mix w/ Live</div>
-        <div class="modal-apply-btn" onclick="applyCalc('nolive')">→ Mix w/o Live</div>
+        <div class="modal-apply-btn" onclick="applyCalc('midi')">→ MIDI Only</div>
+        <div class="modal-apply-btn" onclick="applyCalc('solos')">→ MIDI + Solos</div>
+        <div class="modal-apply-btn" onclick="applyCalc('orch')">→ MIDI + Full Orch</div>
         <div class="modal-apply-btn" onclick="applyCalc('mastering')">→ Mastering</div>
     </div>
     <button class="modal-close" onclick="closeCalc()">Close</button>
@@ -790,8 +794,8 @@ function updCalc() {
 ['calcHours','calcMinutes','calcSeconds'].forEach(id => document.getElementById(id).addEventListener('input', updCalc));
 function applyCalc(t) {
     const v = document.getElementById('calcResult').textContent;
-    ({live:'minutesWithLive',nolive:'minutesWithoutLive',mastering:'minutesMastering'})[t];
-    document.getElementById({live:'minutesWithLive',nolive:'minutesWithoutLive',mastering:'minutesMastering'}[t]).value = v;
+    const map = { midi: 'minutesWithoutLive', solos: 'minutesWithLive', orch: 'minutesFullOrch', mastering: 'minutesMastering' };
+    document.getElementById(map[t]).value = v;
     recalc();
 }
 
@@ -801,7 +805,7 @@ document.getElementById('revisions').addEventListener('input', () => {
     recalc();
 });
 
-['minutesWithLive','minutesWithoutLive','minutesMastering','numCues','manualAdjustment','adjustmentNote',
+['minutesWithLive','minutesWithoutLive','minutesFullOrch','minutesMastering','numCues','manualAdjustment','adjustmentNote',
  'fileDeliveryDate','clientDeadline','composerName','projectName'].forEach(id => {
     const el = document.getElementById(id);
     if (el) { el.addEventListener('input', recalc); el.addEventListener('change', recalc); }
@@ -826,8 +830,9 @@ function showEl(id, v) { document.getElementById(id).style.display = v ? 'flex' 
 
 function recalc() {
     const pt   = document.querySelector('#projectTypeGroup .radio-pill.selected')?.dataset.value || 'commercial';
-    const wL   = +document.getElementById('minutesWithLive').value||0;
-    const woL  = +document.getElementById('minutesWithoutLive').value||0;
+    const wL   = +document.getElementById('minutesWithLive').value||0;   // MIDI + Solos
+    const woL  = +document.getElementById('minutesWithoutLive').value||0; // MIDI Only
+    const orch = +document.getElementById('minutesFullOrch').value||0;    // MIDI + Full Orch
     const mast = +document.getElementById('minutesMastering').value||0;
     const nc   = +document.getElementById('numCues').value||0;
     const rev  = +document.getElementById('revisions').value;
@@ -838,14 +843,15 @@ function recalc() {
     const cn   = document.getElementById('composerName').value.trim();
     const pn   = document.getElementById('projectName').value.trim();
 
-    const total = wL + woL + mast;
+    const total = wL + woL + orch + mast;
 
-    // Rates
-    const rL   = pt==='commercial' ? 175 : 120;
-    const rNoL = pt==='commercial' ? 120 : 100;
-    const rM   = pt==='commercial' ? 12 : 10;
-    const bL   = wL*rL, bNoL = woL*rNoL, bM = mast*rM;
-    const base = bL + bNoL + bM;
+    // Rates per tier
+    const rMidi  = pt==='commercial' ? 120 : 100;  // MIDI Only
+    const rSolos = pt==='commercial' ? 145 : 110;  // MIDI + Solos
+    const rOrch  = pt==='commercial' ? 175 : 120;  // MIDI + Full Orch
+    const rM     = pt==='commercial' ? 12  : 10;   // Mastering
+    const bMidi  = woL*rMidi, bSolos = wL*rSolos, bOrch = orch*rOrch, bM = mast*rM;
+    const base   = bMidi + bSolos + bOrch + bM;
     const adjAmt = base*(adj/100);
     const adjBase = base + adjAmt;
     let revCost = rev > 2 ? (rev-2)*adjBase*0.2 : 0;
@@ -856,47 +862,93 @@ function recalc() {
     const idealRevDays  = 2; // per round
     const stdDays       = setupDays + idealMixDays + (rev * idealRevDays);
 
-    // If we have a deadline, compress to fit — mixing and revisions get squeezed proportionally
-    let mixDays = idealMixDays;
-    let revDaysEach = idealRevDays;
+    // Max mixing pace: ~30 min/day absolute floor = 1 day minimum regardless of volume
+    const MAX_MIN_PER_DAY = 30;
+
     let isRush = false, rushPct = 0, rushCost = 0;
     let bizAvail = 0;
     const fd = parseD(fdv), dl = parseD(dlv);
 
     if (fd && dl && total > 0) {
         bizAvail = bizDays(fd, dl);
-        const daysForWork = bizAvail - setupDays; // days left after setup
-        const minRevDays = rev; // absolute floor: 1 day per revision round (no less)
-        const minMixDays = 1;  // absolute floor: at least 1 mixing day
-
-        if (daysForWork < idealMixDays + rev * idealRevDays) {
-            isRush = true;
-            // Distribute available days: revisions get 1d/round minimum, rest goes to mixing
-            revDaysEach = Math.max(1, Math.floor(daysForWork / (rev + idealMixDays) * idealRevDays));
-            mixDays = Math.max(minMixDays, daysForWork - rev * revDaysEach);
-            // Cap at available (floating point safety)
-            if (mixDays + rev * revDaysEach > daysForWork) {
-                mixDays = Math.max(minMixDays, daysForWork - rev * revDaysEach);
-            }
-            rushPct = Math.round(Math.min(50, Math.max(25, 50 * (1 - bizAvail / stdDays))));
-        }
+        if (bizAvail <= stdDays) isRush = true;
+        if (isRush) rushPct = Math.round(Math.min(50, Math.max(25, 50 * (1 - bizAvail / stdDays))));
     } else if (fd && total > 0) {
         bizAvail = 0;
     }
 
-    if (fd && dl && total > 0 && !isRush) {
-        bizAvail = bizDays(fd, dl);
+    // Compute actual milestone dates
+    // Strategy: work forward greedily — setup day 1, then squeeze mixing and revisions into remaining days
+    // Each phase gets at least 1 biz day; if deadline forces same-day stacking that's shown explicitly
+    let setupDate, fpDate, revDates, finDate;
+
+    if (fd) {
+        // Setup: always 1 biz day after files received
+        setupDate = addBiz(fd, 1);
+
+        if (dl && isRush) {
+            const deadlineDate = dl;
+            // Total biz days in window (exclusive: how many days we can ADD to fd)
+            const totalSlots = bizDays(fd, deadlineDate) - 1;
+
+            // Under extreme compression, setup can share the files-received day
+            // We need at minimum: 1 mixing day + 1 day per revision = (1 + rev) days
+            const minNeeded = 1 + rev;
+
+            // If we have enough slots for setup separately, use setup day; else skip it
+            const useSetupDay = totalSlots > minNeeded;
+            if (useSetupDay) {
+                setupDate = addBiz(fd, 1);
+            } else {
+                setupDate = fd; // same day as files received
+            }
+
+            const slotsForWork = bizDays(setupDate, deadlineDate) - 1; // exclusive slots after setup
+
+            // Mixing gets: min 1, max pace-limited, must leave at least 1 slot per revision round
+            const mixSlots = Math.max(1, Math.min(
+                Math.ceil(total / MAX_MIN_PER_DAY),
+                Math.max(1, slotsForWork - rev)
+            ));
+            fpDate = addBiz(setupDate, mixSlots);
+
+            // Spread remaining slots across revision rounds
+            revDates = [];
+            let cur = fpDate;
+            for (let r = 1; r <= rev; r++) {
+                const slotsLeft = bizDays(cur, deadlineDate) - 1;
+                const roundsLeft = rev - r + 1;
+                const thisRoundDays = Math.max(1, Math.floor(slotsLeft / roundsLeft));
+                cur = addBiz(cur, thisRoundDays);
+                if (cur > deadlineDate) cur = new Date(deadlineDate);
+                revDates.push(new Date(cur));
+            }
+            finDate = revDates[revDates.length - 1];
+
+        } else {
+            // Standard: ideal pacing
+            fpDate = addBiz(setupDate, idealMixDays);
+            revDates = [];
+            let cur = fpDate;
+            for (let r = 1; r <= rev; r++) {
+                cur = addBiz(cur, idealRevDays);
+                revDates.push(new Date(cur));
+            }
+            finDate = revDates[revDates.length - 1];
+        }
     }
 
+    // Actual days used (for formula display)
+    const mixDays = fd ? bizDays(setupDate, fpDate) : idealMixDays;
+    const actualDays = fd && dl ? bizDays(fd, finDate) : stdDays;
+
     // Formula display
-    const revDaysTotal = rev * revDaysEach;
-    const actualDays = setupDays + mixDays + revDaysTotal;
     const fw = document.getElementById('formulaWrap');
     if (total > 0) {
         fw.style.display = 'block';
         document.getElementById('fSetup').textContent = setupDays;
         document.getElementById('fMix').textContent = mixDays;
-        document.getElementById('fRev').textContent = revDaysTotal;
+        document.getElementById('fRev').textContent = rev * (isRush ? Math.max(1, Math.round((bizDays(fpDate||fd, finDate||fd)) / rev)) : idealRevDays);
         document.getElementById('fTotal').textContent = actualDays;
     } else { fw.style.display = 'none'; }
 
@@ -924,10 +976,12 @@ function recalc() {
         + ' · ' + (pt==='commercial'?'Commercial':'Non-Commercial');
     document.getElementById('qTotal').textContent = total>0 ? `$${Math.round(grandTotal).toLocaleString()}` : '—';
 
-    showEl('ql-live', wL>0);
-    if (wL>0) { document.getElementById('ql-live-lbl').textContent=`Mix w/ Live (${wL} min × $${rL}/min)`; document.getElementById('ql-live-amt').textContent=`$${bL.toLocaleString()}`; }
-    showEl('ql-nolive', woL>0);
-    if (woL>0) { document.getElementById('ql-nolive-lbl').textContent=`Mix w/o Live (${woL} min × $${rNoL}/min)`; document.getElementById('ql-nolive-amt').textContent=`$${bNoL.toLocaleString()}`; }
+    showEl('ql-midi', woL>0);
+    if (woL>0)  { document.getElementById('ql-midi-lbl').textContent=`MIDI Only (${woL} min × $${rMidi}/min)`; document.getElementById('ql-midi-amt').textContent=`$${bMidi.toLocaleString()}`; }
+    showEl('ql-solos', wL>0);
+    if (wL>0)   { document.getElementById('ql-solos-lbl').textContent=`MIDI + Solos (${wL} min × $${rSolos}/min)`; document.getElementById('ql-solos-amt').textContent=`$${bSolos.toLocaleString()}`; }
+    showEl('ql-orch', orch>0);
+    if (orch>0) { document.getElementById('ql-orch-lbl').textContent=`MIDI + Full Orch (${orch} min × $${rOrch}/min)`; document.getElementById('ql-orch-amt').textContent=`$${bOrch.toLocaleString()}`; }
     showEl('ql-master', mast>0);
     if (mast>0) { document.getElementById('ql-master-lbl').textContent=`Mastering (${mast} min × $${rM}/min)`; document.getElementById('ql-master-amt').textContent=`$${bM.toLocaleString()}`; }
     showEl('ql-adj', adj!==0);
@@ -948,9 +1002,10 @@ function recalc() {
         const av = document.getElementById('capAvail');
         av.className = 'info-box-val '+(bizAvail===0?'':isRush?'red':bizAvail<=stdDays+2?'amber':'green');
         document.getElementById('capGoal').textContent = Math.round(total/545*100)+'%';
-        const mx = Math.max(wL,woL,mast,1);
-        showEl('bar-live', wL>0); document.getElementById('bf-live').style.width=(wL/mx*100)+'%'; document.getElementById('bv-live').textContent=wL+' min';
-        showEl('bar-nolive', woL>0); document.getElementById('bf-nolive').style.width=(woL/mx*100)+'%'; document.getElementById('bv-nolive').textContent=woL+' min';
+        const mx = Math.max(woL, wL, orch, mast, 1);
+        showEl('bar-midi',  woL>0);  document.getElementById('bf-midi').style.width=(woL/mx*100)+'%';  document.getElementById('bv-midi').textContent=woL+' min';
+        showEl('bar-solos', wL>0);   document.getElementById('bf-solos').style.width=(wL/mx*100)+'%';  document.getElementById('bv-solos').textContent=wL+' min';
+        showEl('bar-orch',  orch>0); document.getElementById('bf-orch').style.width=(orch/mx*100)+'%'; document.getElementById('bv-orch').textContent=orch+' min';
         showEl('bar-master', mast>0); document.getElementById('bf-master').style.width=(mast/mx*100)+'%'; document.getElementById('bv-master').textContent=mast+' min';
     } else { cg.style.display='none'; bc.style.display='none'; }
 
@@ -968,12 +1023,11 @@ function recalc() {
         ms.push({ date: fileDate, label: 'Files Received from Composer', note: 'File check within 4 hours · confirm sync and completeness', dot: 'filled', badge: null });
 
         // 2. Session setup
-        const setupDate = addBiz(fileDate, setupDays);
-        ms.push({ date: setupDate, label: 'Session Setup Complete', note: 'ProTools session, folder structure, file verification', dot: '', badge: setupDays+'d' });
+        const setupSameDay = setupDate.getTime() === fileDate.getTime();
+        ms.push({ date: setupDate, label: 'Session Setup Complete', note: 'ProTools session, folder structure, file verification', dot: '', badge: setupSameDay ? 'same day' : '1d' });
 
-        // 3. First pass
+        // 3. First mix pass
         const actualPace = mixDays > 0 ? (total / mixDays).toFixed(1) : total;
-        const fpDate = addBiz(setupDate, mixDays);
         ms.push({
             date: fpDate,
             label: 'First Mix Pass Delivered',
@@ -982,29 +1036,25 @@ function recalc() {
             badge: isRush ? 'Rush' : mixDays+'d mixing'
         });
 
-        // 4. Revision rounds — always use compressed revDaysEach, guaranteed to fit
-        let cur = fpDate;
-        for (let r = 1; r <= Math.max(rev,1); r++) {
-            const delivery = addBiz(cur, revDaysEach);
+        // 4. Revision rounds
+        for (let r = 0; r < revDates.length; r++) {
             ms.push({
-                date: delivery,
-                label: `Revision ${r} Delivered`,
-                note: r>2 ? 'Additional revision (extra fee applies)' : 'Included in base quote',
-                dot: r>2 ? 'amber' : isRush ? 'amber' : '',
-                badge: r>2 ? 'Extra' : 'Included'
+                date: revDates[r],
+                label: `Revision ${r+1} Delivered`,
+                note: r+1 > 2 ? 'Additional revision (extra fee applies)' : 'Included in base quote',
+                dot: r+1 > 2 ? 'amber' : isRush ? 'amber' : '',
+                badge: r+1 > 2 ? 'Extra' : 'Included'
             });
-            cur = delivery;
         }
 
-        // 5. Final delivery — always lands on or before deadline
-        const finDate = cur;
+        // 5. Final delivery
         ms.push({ date: finDate, label: 'Final Delivery', note: 'Stereo mix + stems · project archived', dot: 'green', badge: null });
 
         // 6. Client deadline
         if (dlv) {
             const dlDate = parseD(dlv);
             const buf = bizDays(finDate, dlDate);
-            ms.push({ date: dlDate, label: 'Client Deadline', note: buf>0?`${buf} business day${buf!==1?'s':''} buffer after final delivery`:'No buffer — delivery lands on deadline', dot: buf<=0?'red':buf<=2?'amber':'green', badge: buf>0?buf+'d buffer':'No buffer' });
+            ms.push({ date: dlDate, label: 'Client Deadline', note: buf>0?`${buf} business day${buf!==1?'s':''} buffer after final delivery`:'No buffer — delivery lands on deadline', dot: buf<=0?'green':buf<=2?'amber':'green', badge: buf>0?buf+'d buffer':'On deadline' });
         }
 
         // Store ALL milestones for ICS export
@@ -1216,9 +1266,9 @@ function clearWavFiles() {
 function sendToQuote() {
     const totalSecs = wavFiles.reduce((s, f) => s + (f.error ? 0 : f.duration), 0);
     const totalMins = Math.round(totalSecs / 60);
-    const choice = prompt(`Send ${totalMins} minutes to which field?\n\n1 → Mix w/ Live Recordings\n2 → Mix w/o Live Recordings\n3 → Mastering\n\nType 1, 2, or 3:`);
+    const choice = prompt(`Send ${totalMins} minutes to which field?\n\n1 → MIDI Only\n2 → MIDI + Solos\n3 → MIDI + Full Orch\n4 → Mastering\n\nType 1, 2, 3, or 4:`);
     if (!choice) return;
-    const map = { '1': 'minutesWithLive', '2': 'minutesWithoutLive', '3': 'minutesMastering' };
+    const map = { '1': 'minutesWithoutLive', '2': 'minutesWithLive', '3': 'minutesFullOrch', '4': 'minutesMastering' };
     const fieldId = map[choice.trim()];
     if (!fieldId) return;
     document.getElementById(fieldId).value = totalMins;
